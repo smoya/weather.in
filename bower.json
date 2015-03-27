@@ -1,0 +1,25 @@
+{
+  "name": "the-weather-in",
+  "version": "1.0.0",
+  "description": "A simple weather prophet",
+  "keywords": [
+    "weather",
+    "prophet"
+  ],
+  "authors": [
+    "Sergio Moya <smoya89@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "1.0.5",
+    "skycons": "http://github.com/darkskyapp/skycons.git"
+  }
+}

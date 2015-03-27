@@ -1,0 +1,237 @@
+{% extends "layout.html.twig" %}
+{% import "macros.html.twig" as macros %}
+{% block page_title %}Your weather prophecy - {{ prophecy.data.currently.summary }}{% endblock %}
+
+{% set temperature_unit = macros.print_temperature_unit(prophecy.data.flags.units) %}
+{% set velocity_unit = macros.print_velocity_unit(prophecy.data.flags.units) %}
+
+{% block content %}
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <canvas id="current-temperature-icon" width="100" height="90"></canvas>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">
+                                {{ prophecy.data.currently.temperature }}
+                                {{ temperature_unit }}
+                            </div>
+                            <div>
+                                <b>Apparent:</b>
+                                {{ prophecy.data.currently.apparentTemperature }}
+                                {{ temperature_unit }}
+                            </div>
+                            <div><b>Humidity:</b> {{ prophecy.data.currently.humidity }}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-umbrella fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ prophecy.data.currently.precipIntensity }} in/h</div>
+                            <div><b>Precip. probability:</b> {{ prophecy.data.currently.precipProbability }}</div>
+                            {% if prophecy.data.currently.nearestStormDistance is defined %}
+                                <div><b>Nearest Storm:</b> {{ prophecy.data.currently.nearestStormDistance }} miles</div>
+                            {% else %}
+                                <div><b>Pressure:</b> {{ prophecy.data.currently.pressure }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-dashboard fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">
+                                {{ prophecy.data.currently.windSpeed }}
+                                {{ velocity_unit }}
+                            </div>
+                            <div><b>Bearing:</b> {{ prophecy.data.currently.windBearing }}</div>
+                            {% if prophecy.data.currently.visibility is defined %}
+                                <div><b>Visibility:</b> {{ prophecy.data.currently.visibility }}</div>
+                            {% else %}
+                                <div><b>Cloud Cover:</b> {{ prophecy.data.currently.cloudCover }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Hourly temperature chart
+                    <div class="pull-right">
+                        <div class="btn-group">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div id="morris-area-chart"></div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-clock-o fa-fw"></i> Daily Info
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <p class="list-group-item">
+                        <canvas id="daily-temperature-icon" width="20" height="20"></canvas>
+                        <span class="pull-right text-muted small"><em>{{ prophecy.data.daily.summary }}</em>
+                        </span>
+                    </p>
+                    <br>
+                    <ul class="">
+                        {% for dailyProphecy in prophecy.data.daily.data %}
+                        <li {{ loop.index%2 == 0 ? 'class="timeline-inverted"' : ''  }}>
+                            {#<div class="timeline-badge"><i class="fa fa-info"></i></div>#}
+                            {#<div class="timeline-panel">#}
+                                <div class="timeline-heading">
+                                    <h4 class="timeline-title">{{ dailyProphecy.time|date }}</h4>
+                                    <p><small class="text-muted"><i class="fa fa-clock-o"></i> {{ dailyProphecy.summary }}</small>
+                                    </p>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><b>Temp Min</b></td>
+                                                <td>{{ dailyProphecy.temperatureMin }} {{ temperature_unit }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Temp Max</b></td>
+                                                <td>{{ dailyProphecy.temperatureMax }} {{ temperature_unit }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Humidity</b></td>
+                                                <td>{{ dailyProphecy.humidity }} %</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Precip Int</b></td>
+                                                <td>{{ dailyProphecy.precipIntensity }} in/h</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Precip Int Max</b></td>
+                                                <td>{{ dailyProphecy.precipIntensityMax }} in/h</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Wind Speed</b></td>
+                                                <td>{{ dailyProphecy.windSpeed }} {{ velocity_unit }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {#</div>#}
+                            {#</div>#}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-clock-o fa-fw"></i> Hourly
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        <p class="list-group-item">
+                            <canvas id="hourly-temperature-icon" width="30" height="30"></canvas>
+                            <span class="pull-right text-muted small"><em>{{ prophecy.data.hourly.summary }}</em></span>
+                        </p>
+                        <br>
+
+                        {% for hourlyProphecy in prophecy.data.hourly.data %}
+                        <p class="list-group-item">
+                            <i class="fa fa-clock-o fa-fw"></i> {{ hourlyProphecy.time|date("m-d H:i") }}
+                                    <span class="pull-right text-muted small">
+                                        <em>
+                                            {{ hourlyProphecy.temperature }}{{ temperature_unit }}
+                                            | Precip: {{ hourlyProphecy.precipIntensity}} in/h
+                                        </em>
+                                    </span>
+                        </p>
+                        {% endfor %}
+                        </a>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel .chat-panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+    </div>
+{% endblock %}
+
+{% block javascript_includes %}
+    {{ parent() }}
+    <script>
+        var whiteSkycons = new Skycons({"color": "white"});
+        whiteSkycons.add("current-temperature-icon", "{{ prophecy.data.currently.icon }}");
+        whiteSkycons.play();
+
+        var blackSkycons = new Skycons({"color": "black"});
+        blackSkycons.add("hourly-temperature-icon", "{{ prophecy.data.hourly.icon }}");
+        blackSkycons.add("daily-temperature-icon", "{{ prophecy.data.daily.icon }}");
+        blackSkycons.play();
+
+        $(function() {
+
+            Morris.Area({
+                element: 'morris-area-chart',
+                data: [
+                    {% for hourlyProphecy in prophecy.data.hourly.data %}
+                    {
+                        period: "{{ hourlyProphecy.time|date("Y-m-d H:i:s") }}",
+                        temperature: {{ hourlyProphecy.temperature }},
+                        aparent: {{ hourlyProphecy.apparentTemperature }},
+                        dewpoint: {{ hourlyProphecy.dewPoint }}
+                    },
+                    {% endfor %}
+                ],
+                xkey: 'period',
+                ykeys: ['temperature', 'aparent', 'dewpoint'],
+                labels: ['Temperature', 'Aparent', 'Dew point'],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
+            });
+        });
+
+    </script>
+{% endblock %}

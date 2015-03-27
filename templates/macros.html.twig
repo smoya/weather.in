@@ -1,0 +1,17 @@
+{% macro print_temperature_unit(type) %}
+    {% if type == 'us' %}
+        ºF
+    {% elseif type in ['uk', 'as', 'si'] %}
+        ºC
+    {% endif %}
+{% endmacro %}
+
+{% macro print_velocity_unit(type) %}
+    {% if type in ['us', 'uk'] %}
+        mph
+    {% elseif type == 'as' %}
+        km/h
+    {% elseif type == 'si' %}
+        m/s
+    {% endif %}
+{% endmacro %}

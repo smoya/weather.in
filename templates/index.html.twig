@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% block javascript_includes %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script>
+        new google.maps.places.Autocomplete(document.getElementById('form_address'));
+    </script>
+{% endblock %}
+
+{% block content %}
+    <form role="form" action="/weather" method="post">
+        <fieldset>
+            <div class="form-group">
+                {{ form_row(form.address, {'attr': {'class': 'form-control'}}) }}
+                {{ form_rest(form) }}
+            </div>
+
+            {{ form_errors(form) }}
+
+            <button type="submit" class="btn btn-lg btn-success btn-block">Send</button>
+        </fieldset>
+    </form>
+{% endblock %}

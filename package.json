@@ -1,0 +1,8 @@
+{
+  "name": "the-weather-in",
+  "version": "1.0.0",
+  "description": "A simple weather prophet",
+  "devDependencies": {
+    "bower": "~1.3.12"
+  }
+}
