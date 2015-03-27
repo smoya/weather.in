@@ -3,14 +3,14 @@
 namespace TheWeatherIn\Component\Http\Curl;
 
 /**
- * This is a lightweight implementation of a curl client
+ * This is a lightweight implementation of a curl client.
  */
 class Client
 {
     /**
      * @param int   $url
      * @param array $parameters
-     * @param int   $timeout Time in ms
+     * @param int   $timeout    Time in ms
      *
      * @return string The response content
      */
@@ -35,6 +35,7 @@ class Client
     /**
      * @param string $url
      * @param array  $parameters
+     *
      * @return string
      */
     private function constructEndPoint($url, array $parameters = null)
@@ -46,11 +47,11 @@ class Client
         array_walk(
             $parameters,
             function (&$value, $key) {
-                $value = $key . '=' . urlencode($value);
+                $value = $key.'='.urlencode($value);
             }
         );
 
-        $parameterizedUrl = $url . '?' . implode('&', $parameters);
+        $parameterizedUrl = $url.'?'.implode('&', $parameters);
 
         return $parameterizedUrl;
     }

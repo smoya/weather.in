@@ -3,7 +3,7 @@
 namespace TheWeatherIn\Component\Geocoding;
 
 /**
- * Simple value object which represents a map coordinates
+ * Simple value object which represents a map coordinates.
  */
 class Coordinates
 {

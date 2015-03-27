@@ -8,6 +8,7 @@ interface WeatherInfoProvider
 {
     /**
      * @param Coordinates $coordinates
+     *
      * @return array
      */
     public function getInfo(Coordinates $coordinates);

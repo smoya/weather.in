@@ -26,6 +26,7 @@ class GoogleGeocoder implements Geocoder
 
     /**
      * @param string $address
+     *
      * @return Coordinates
      */
     public function geocode($address)
@@ -34,7 +35,7 @@ class GoogleGeocoder implements Geocoder
             self::ENDPOINT,
             [
                 'key'     => $this->apiKey,
-                'address' => $address
+                'address' => $address,
             ]
         );
 

@@ -46,4 +46,3 @@ $app->error(function (\Exception $e, $code) use ($app) {
 
     return new Response($app['twig']->render($template, ['code' => $code]), $code);
 });
-
