@@ -1,6 +1,8 @@
 A simple weather prophet
 ========================
 
+[![Build Status](https://travis-ci.org/smoya/weather.in.svg?branch=master)](https://travis-ci.org/smoya/weather.in)
+
 A simple website to check the weather by address.
 
 ### Dependencies
