@@ -5,6 +5,8 @@ A simple weather prophet
 
 A simple website to check the weather by address.
 
+Demo [here](http://the-weather-in.herokuapp.com)
+
 ### Dependencies
 
 This library uses [composer](https://getcomposer.org) to manage the PHP dependencies and [npm](https://www.npmjs.com/) for [bower](http://bower.io).
